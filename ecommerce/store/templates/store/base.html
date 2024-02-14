@@ -79,7 +79,7 @@
                     <a class="nav-link dropdown-toggle text-white" href="#" id="navbarDropdown" role="button"
                     data-bs-toggle="dropdown" aria-expanded="false">
                     
-                        Categories
+                        Kategorije
                     
                     </a>
                     
@@ -120,14 +120,14 @@
 
                 <li class="nav-item">
             
-                    <a class="btn btn-alert navbar-btn text-white" type="button"  href="/"> Register </a>
+                    <a class="btn btn-alert navbar-btn text-white" type="button"  href="/"> Registrujte se </a>
 
                 </li>
 
-
+                &nbsp; &nbsp; &nbsp;
                 <li class="nav-item">
 
-                    <a class="btn btn-alert navbar-btn text-white" type="button"  href="/"> Login </a>
+                    <a class="btn btn-alert navbar-btn text-white" type="button"  href="/"> Prijavite se </a>
 
                 </li>
 
@@ -144,10 +144,29 @@
                         <i class="fa fa-shopping-cart" aria-hidden="true"> </i>
 
 
+                        &nbsp;
+                        <div id="cart-qty" class="d-inline-flex">
+
+                            {% with qty_amount=cart|length %}
+
+                                {% if qty_amount > 0 %}
+
+                                    {{ qty_amount }}
+
+                                    {% else %}
+                                        0
+
+                                {% endif %}
+
+                            {% endwith %}
+
+                        </div>
+
+
                     </a>
 
                 </li>
-
+                &nbsp; &nbsp; &nbsp;
                 &nbsp; &nbsp; &nbsp;
         
 

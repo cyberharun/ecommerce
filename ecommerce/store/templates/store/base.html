@@ -22,6 +22,7 @@
 
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
+        <link rel="stylesheet" href="{% static 'css/styles.css' %}">
 
 
         <!-- JavaScript -->
@@ -120,7 +121,7 @@
 
                 <li class="nav-item">
             
-                    <a class="btn btn-alert navbar-btn text-white" type="button"  href="/"> Registrujte se </a>
+                    <a class="btn btn-alert navbar-btn text-white" type="button"  href="{% url 'register' %}"> Registrujte se </a>
 
                 </li>
 

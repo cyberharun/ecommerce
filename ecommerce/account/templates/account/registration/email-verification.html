@@ -1,0 +1,14 @@
+
+
+{% autoescape off %}
+
+Zdravo,
+
+Hvala vam na registraciji na nasoj web stranici
+
+Molim vas budite ljubazni i verifikujte email klikom na link ispod
+
+http://{{domain}}{% url 'email-verification' uidb64=uid token=token %}
+
+
+{% endautoescape off %}

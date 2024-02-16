@@ -1,5 +1,6 @@
 {% load static %}
 
+
 <!DOCTYPE html>
 
 <html>
@@ -118,19 +119,42 @@
             
             <ul class="navbar-nav ms-auto">
 
+                {% if user.is_authenticated %}
 
-                <li class="nav-item">
-            
-                    <a class="btn btn-alert navbar-btn text-white" type="button"  href="{% url 'register' %}"> Registrujte se </a>
 
-                </li>
+                    <li class="nav-item">
 
-                &nbsp; &nbsp; &nbsp;
-                <li class="nav-item">
+                        <a class="btn btn-alert navbar-btn text-white" type="button"  href="{% url 'dashboard' %}"> Dashboard </a>
 
-                    <a class="btn btn-alert navbar-btn text-white" type="button"  href="/"> Prijavite se </a>
+                    </li>
 
-                </li>
+                {% else %}
+
+                    &nbsp;
+                    <li class="nav-item">
+
+                        <a class="btn btn-alert navbar-btn text-white" type="button"  href="{% url 'register' %}"> Registruj se </a>
+
+                    </li>
+
+                    <li class="nav-item">
+
+                        <a class="btn btn-alert navbar-btn text-white" type="button"  href="{% url 'my-login' %}"> Prijavi se </a>
+
+                    </li>
+                {% endif %}
+
+                {% if user.is_authenticated %}
+
+                    <li class="nav-item">
+
+                        <a class="btn btn-alert navbar-btn text-white" type="button"  href="{% url 'user-logout' %}"> Odjavi se</a>
+
+                    </li>
+
+                {% else %}
+
+                {% endif %}
 
 
                 &nbsp; &nbsp; &nbsp;

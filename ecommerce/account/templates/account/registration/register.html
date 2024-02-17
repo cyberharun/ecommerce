@@ -26,12 +26,10 @@
         <div class="container bg-white shadow-md p-5 form-layout"  >
 
             <h3> Registruj se</h3>
+            <hr>
 
-            <h5> Kupi danas svoje omiljene proizvode !</h5>
+            <br>
 
-            <br>
-            <br>
-            <br>
 
             <form method="POST" autocomplete="off">
 
@@ -42,7 +40,7 @@
                 {{form.password1|as_crispy_field}}
                 {{form.password2|as_crispy_field}}
                 <br><br>
-                <button type="submit" class="btn btn-secondary btn-1g w-100 btn-block p-2">
+                <button type="submit" class="btn btn-primary navbar-btn text-white w-100 p-2">
 
                     &nbsp;
                     Registruj se
@@ -50,7 +48,15 @@
 
 
                 </button>
+                <br><br>
 
+                <div class="text-center">
+
+                     <a href="{% url 'my-login' %}">Imate vec registrovan racun ?</a>
+
+
+
+                </div>
 
             </form>
         </div>

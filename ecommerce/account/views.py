@@ -16,6 +16,8 @@ from django.utils.http import urlsafe_base64_decode, urlsafe_base64_encode
 
 from django.contrib.auth.decorators import login_required
 
+
+
 def register(request):
 
     form = CreateUserForm()
@@ -127,7 +129,22 @@ def my_login(request):
 
 def user_logout(request):
 
-    auth.logout(request)
+    try:
+    #Keeping cart with stuff without losing
+        for key in list(request.session.keys()):
+
+            if key == 'session_key':
+
+                continue
+
+            else:
+
+                del request.session[key]
+
+    except KeyError:
+
+        pass
+
 
     return redirect('store')
 

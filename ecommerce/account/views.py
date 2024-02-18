@@ -16,6 +16,8 @@ from django.utils.http import urlsafe_base64_decode, urlsafe_base64_encode
 
 from django.contrib.auth.decorators import login_required
 
+from django.contrib import messages
+
 
 
 def register(request):
@@ -145,6 +147,8 @@ def user_logout(request):
 
         pass
 
+    messages.success(request, "Odjava uspjesna !")
+
 
     return redirect('store')
 
@@ -169,6 +173,8 @@ def profile_management(request):
 
             user_form.save()
 
+            messages.info(request, "Uspjesno ste azurirali racun !")
+
             return redirect('dashboard')
 
 
@@ -184,6 +190,8 @@ def delete_account(request):
     if request.method == 'POST':
 
         user.delete()
+
+        messages.error(request, "Uspjesno ste obrisali racun !")
 
         return redirect('store')
 

@@ -42,8 +42,9 @@ INSTALLED_APPS = [
     'cart',   # Django app
     'mathfilters',
     'account',  # Django app
+    'payment',  # Django app
 
-    'crispy_forms',
+    'crispy_forms',   # Cryspi forms
     "crispy_bootstrap5",
 ]
 

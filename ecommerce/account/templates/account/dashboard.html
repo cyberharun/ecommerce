@@ -23,7 +23,7 @@
 
         <div class="container bg-white shadow-md p-5 form-layout"  >
 
-            <h3> Dobrodosao {{user}}</h3>
+            <h3> Dobrodosao, {{user}}</h3>
             <hr>
 
             <p> Ovo je dashboard gdje mozete uradit sljedece :</p>
@@ -41,6 +41,21 @@
             <hr>
             <p> Prati sve narudzbe ovdje : </p>
             <a class="btn btn-primary navbar-btn text-white" type="button"  href="/"> Moje narudzbe </a>
+            <br>
+
+
+        </div>
+
+        <br>
+
+        <div class="container bg-white shadow-md p-5 form-layout">
+
+            <h4>Upravljaj posiljkama</h4>
+            <hr>
+
+             <p> Upisi adresu posiljke. </p>
+
+            <a class="btn btn-primary navbar-btn text-white" type="button"  href="{% url 'manage-shipping' %}"> Upravljanje posiljkama </a>
             <br>
 
 

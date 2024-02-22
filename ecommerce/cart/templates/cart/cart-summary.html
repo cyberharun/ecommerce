@@ -120,13 +120,22 @@
  
         <div class="h6 fw-bold"> Ukupno za platiti: $ <div id="total" class="d-inline-flex"> {{cart.get_total}} </div></div>
  
-      </div>
- 
+
+
+        <a href="{% url 'checkout' %}" class="btn btn-primary my-2">
+                    <i class="fa fa-chevron-circle-right" aria-hidden="true"></i>
+
+                    Nastavi za placanje
+
+                </a>
+          </div>
 
     </div>
 
     <br>
     <br>
+
+
 
 
  </main>

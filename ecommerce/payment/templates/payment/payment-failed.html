@@ -1,3 +1,49 @@
 
 
-<h1> Payment failed </h1>
+
+{% include "store/base.html" %}
+
+{% load static %}
+
+{% block content %}
+
+<style>
+
+        body{
+
+            background-color:gray;
+
+        }
+
+</style>
+
+   <body>
+
+        <br>
+
+        <div class="container bg-white shadow-md p-5 form-layout"  >
+
+            <div class="text-center">
+            <i class="fa fa-credit-card-alt fa-4x" style="color:red" aria-hidden="true"></i>
+
+
+
+
+            <br><br>
+            <h3><strong>Placanje nije uspjelo</strong>  </h3>
+
+            <hr>
+
+
+
+            <p> Pokusajte ponovo.</p>
+
+            </div>
+        </div>
+
+   </body>
+
+
+
+{% endblock %}
+

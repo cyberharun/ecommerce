@@ -8,12 +8,12 @@
 {% block content %}
 
 <style>
-    
-    body 
+
+    body
     {
-        
+
         background-color: gray;
-    
+
     }
 
 
@@ -26,7 +26,8 @@
 
         <div class="container bg-white shadow-md p-5" style="width:500px; border-radius:20px;">
 
-            <form id="form">
+            <form id="form" onsubmit="event.preventDefault();">
+
 
                 <div>
 
@@ -37,7 +38,7 @@
                         <br>
 
                     Zvjezdicom * su oznacena polja koja su obavezna za popuniti.</p>
- 
+
 
 
                     <hr>
@@ -45,7 +46,7 @@
                     <br>
 
                     <div class="form-field">
-                    
+
                         <input class="form-control validate" id="name" type="text" placeholder="Ime i prezime*" autocomplete="off" value="{{shipping.full_name}}" required>
 
                     </div>
@@ -60,10 +61,10 @@
 
                     </div>
 
-                    
+
                     <br>
 
-                    
+
                     <div class="form-field">
 
                         <input class="form-control validate" id="address1" type="text" placeholder="Adresa 1*" autocomplete="off" value="{{shipping.address1}}" required>
@@ -109,19 +110,20 @@
                         <input class="form-control" id="zipcode" type="text" placeholder="Postanski broj (Neobavezno)" autocomplete="off" value="{{shipping.zipcode}}">
 
                     </div>
-            
+
                 </div>
 
                 <br>
 
 
 
-               <button id="complete-order" type="submit" class="btn btn-primary navbar-btn text-white w-100 h-2" > &nbsp;Naruci </button>
-               
+               <!-- <button id="complete-order" type="submit" class="btn btn-primary navbar-btn text-white w-100 h-2" > &nbsp;Naruci </button> -->
 
                 <br>
 
+                <div id="paypal-button-container"></div>
 
+                <script src="https://www.paypal.com/sdk/js?client-id=AamT63d9PYQoOXWWYAx-RGdphbhaqyoT8fbHuElvG3qhPqhpHRhFsbWItkY8TcopVZnmbCetBrgztGSE&currency=USD&intent=capture&enable-funding=venmo" data-sdk-integration-source="integrationbuilder"></script>
 
 
             </form>
@@ -129,7 +131,7 @@
 
         </div>
 
-        
+
 
         <br>
 
@@ -139,55 +141,229 @@
 
     <!-- Ajax integration -->
 
-    
+
 
     <script>
 
-    // Complete checkout
-
-        $(document).on('submit', function(e){
 
 
-        e.preventDefault();
-        $.ajax({
+    // Total price
 
-            type: 'POST',
-            url: '{% url "complete-order" %}',
-            data: {
+    var total_price = '{{cart.get_total}}';
 
-                name: $('#name').val(),
-                email: $('#email').val(),
-
-                address1: $('#address1').val(),
-                address2: $('#address2').val(),
-                city: $('#city').val(),
-
-                state: $('#state').val(),
-                zipcode: $('#zipcode').val(),
-
-                csrfmiddlewaretoken: "{{csrf_token}}",
-                action: 'post'
-            },
-            success: function(json){
-
-                //console.log(json)
-
-                window.location.replace("{% url 'payment-success' %}");
+    // Paypal Script
 
 
-            },
 
-            error: function(xhr, errmsg, err){
 
-                window.location.replace("{% url 'payment-failed' %}");
+    const paypalButtonsComponent = paypal.Buttons({
+        // optional styling for buttons
+        // https://developer.paypal.com/docs/checkout/standard/customize/buttons-style-guide/
+        style: {
+          color: "gold",
+          shape: "pill",
+          layout: "vertical"
+        },
 
-            }
 
-        });
+        onInit: function(data, actions) {
 
+            actions.disable();
+
+            // Complete order - NO SHIPPING INFORMATIONS
+
+            document.querySelectorAll('.validate').forEach(item => {
+
+                item.addEventListener('keyup', event => {
+
+                    // The required fields are filled out
+
+                    var order_verified = 'Yes';
+
+                    function checkInputs(){
+
+                        $(':input[required]').each(function(){
+
+                                if($(this).val() == ''){
+
+                                    // The required fields are empty
+
+                                    return order_verified = 'No';
+
+                                }
+
+
+
+
+                        });
+
+                        return order_verified;
+
+
+
+                    }
+
+                    var isOrderVerified = checkInputs()
+
+                    if(isOrderVerified === 'Yes'){
+
+                        actions.enable();
+
+                    }
+                    else
+                    {
+
+                    actions.disable();
+
+                    }
+
+
+                });
+
+
+
+            });
+
+            // Complete order - WITH SHIPPING INFORMATIONS
+
+            // The required fields are filled out
+
+                    var order_verified = 'Yes';
+
+                    function checkInputs(){
+
+                        $(':input[required]').each(function(){
+
+                                if($(this).val() == ''){
+
+                                    // The required fields are empty
+
+                                    return order_verified = 'No';
+
+                                }
+
+                        });
+
+                        return order_verified;
+
+                    }
+
+                    var isOrderVerified = checkInputs()
+
+                    if(isOrderVerified === 'Yes'){
+
+                        actions.enable();
+
+                    }
+
+                    else
+
+                    {
+
+                    actions.disable();
+
+                    }
+
+
+        },
+
+
+
+
+
+
+
+        // set up the transaction
+
+
+        createOrder: (data, actions) => {
+            // pass in any options from the v2 orders create call:
+            // https://developer.paypal.com/api/orders/v2/#orders-create-request-body
+            const createOrderPayload = {
+                purchase_units: [
+                    {
+                        amount: {
+                            value: total_price
+                        }
+                    }
+                ]
+            };
+
+            return actions.order.create(createOrderPayload);
+        },
+
+
+
+
+        // finalize the transaction
+        onApprove: (data, actions) => {
+            const captureOrderHandler = (details) => {
+                const payerName = details.payer.name.given_name;
+                console.log('Transaction completed');
+
+                // Ajax functionality
+
+                $.ajax({
+
+                    type: 'POST',
+                    url: '{% url "complete-order" %}',
+                    data: {
+
+                        name: $('#name').val(),
+                        email: $('#email').val(),
+
+                        address1: $('#address1').val(),
+                        address2: $('#address2').val(),
+                        city: $('#city').val(),
+
+                        state: $('#state').val(),
+                        zipcode: $('#zipcode').val(),
+
+                        csrfmiddlewaretoken: "{{csrf_token}}",
+                        action: 'post'
+                    },
+                    success: function(json){
+
+                        //console.log(json)
+
+                        window.location.replace("{% url 'payment-success' %}");
+
+
+                    },
+
+                    error: function(xhr, errmsg, err){
+
+                        window.location.replace("{% url 'payment-failed' %}");
+
+                    }
+
+                });
+
+
+            };
+
+            return actions.order.capture().then(captureOrderHandler);
+        },
+
+
+        // handle unrecoverable errors
+        onError: (err) => {
+            console.error('An error prevented the buyer from checking out with PayPal');
+
+        }
     });
 
-    
+
+
+
+
+
+    paypalButtonsComponent
+        .render("#paypal-button-container")
+        .catch((err) => {
+            console.error('PayPal Buttons failed to render');
+        });
+
 
 
    </script>

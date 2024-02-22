@@ -157,3 +157,8 @@ EMAIL_USE_TLS = 'True'
 
 EMAIL_HOST_USER = 'harun.car@gmail.com'  # Enter your GMAIL address
 EMAIL_HOST_PASSWORD = 'jaxn xzuf udfo gmhk' # Enter your app password
+
+
+# Allow PayPal Popups
+
+SECURE_CROSS_ORIGIN_OPENER_POLICY = 'same-origin-allow-popups'

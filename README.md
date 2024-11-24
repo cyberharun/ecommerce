@@ -1,1 +1,1 @@
-# E commerce 
+# E commerce Django project
